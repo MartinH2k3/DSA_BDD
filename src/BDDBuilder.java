@@ -128,16 +128,8 @@ public class BDDBuilder {
             zero = new Node(null);
             one.variable = "1";
             zero.variable = "0";
-
-            if (dnf.isZero) {
-                root = zero;
-            } else if (dnf.isOne) {
-                root = one;
-            } else {
-                root = buildBDD(this, dnf, 0);
-                dnfCache.put(dnf, root);
-            }
-
+            root = buildBDD(this, dnf, 0);
+            dnfCache.put(dnf, root);
             nOfNodes = dnfCache.size();
         }
         DNF dnf;

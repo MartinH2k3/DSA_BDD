@@ -14,7 +14,6 @@ public class TestComplexity {
         }
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime);
-        System.out.println("Time is " + duration + " milliseconds");
-        System.out.println("Reduced:NonReduced number of nodes 1:"  + (int)(numberOfDNFs*(Math.pow(2, numberOfVariables))/nodes));
+        System.out.println("Test for " + numberOfDNFs + " formulas with " + numberOfVariables + "variables.\n" + "Time is " + duration + " milliseconds.\nReduced:NonReduced ratio of nodes number:\t1:"  + (int)(numberOfDNFs*(Math.pow(2, numberOfVariables))/nodes));
     }
 }
