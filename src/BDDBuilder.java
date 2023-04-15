@@ -59,22 +59,6 @@ public class BDDBuilder {
         }
     }
 
-    private ArrayList<ArrayList<String>> generatePermutations(ArrayList<String> variables) {
-        ArrayList<ArrayList<String>> result = new ArrayList<>();
-        int size = variables.size();
-
-        for (int i = 0; i < size; i++) {
-            ArrayList<String> permutation = new ArrayList<>(size);
-            for (int j = 0; j < size; j++) {
-                permutation.add(variables.get((j + i) % size));
-            }
-            result.add(permutation);
-        }
-
-        return result;
-    }
-
-
     // tree
     public class Node {
         public Node(String variable){
@@ -150,12 +134,16 @@ public class BDDBuilder {
             }
 
             Node currentNode = root;
-            while (!(currentNode == one || currentNode == zero)) {
-                if (variableValues.get(currentNode.variable.charAt(0))) {
-                    currentNode = currentNode.right;
-                } else {
-                    currentNode = currentNode.left;
+            try {
+                while (!(currentNode == one || currentNode == zero)) {
+                    if (variableValues.get(currentNode.variable.charAt(0))) {
+                        currentNode = currentNode.right;
+                    } else {
+                        currentNode = currentNode.left;
+                    }
                 }
+            } catch (NullPointerException e) {
+                return '\0';
             }
 
             return currentNode.variable.charAt(0);
@@ -279,7 +267,22 @@ public class BDDBuilder {
         return new ArrayList<>(uniqueVariables);
     }
 
-    public BDD createWithTotallyBestPermutations(String dnf) {
+    private ArrayList<ArrayList<String>> generatePermutations(ArrayList<String> variables) {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        int size = variables.size();
+
+        for (int i = 0; i < size; i++) {
+            ArrayList<String> permutation = new ArrayList<>(size);
+            for (int j = 0; j < size; j++) {
+                permutation.add(variables.get((j + i) % size));
+            }
+            result.add(permutation);
+        }
+
+        return result;
+    }
+
+    public BDD createWithTotallyBestOrder(String dnf) {
         ArrayList<String> variables = getUniqueVariablesFromDNF(dnf);
         int n = variables.size();
         int[] c = new int[n];
